@@ -63,9 +63,6 @@ export default defineComponent({
             console.log(index)
         }
 
-        const handleClick = (tab, event) => {
-            console.log(tab, event);
-        }
         // 登陆对话框
         const dialogVisible = ref(false)
         return {
@@ -74,7 +71,6 @@ export default defineComponent({
             dialogVisible,
             select,
             activeName,
-            handleClick
         }
     }
 })
