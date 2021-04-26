@@ -3,7 +3,7 @@
         class="el-menu-demo"
         mode="horizontal"
         default-active="recommend">
-        <router-link to="/">
+        <router-link to="/home">
             <img class="logo" src="../assets/logo.png" alt="logo">
         </router-link>
         <el-menu-item index="recommend" @click="select">推荐</el-menu-item>
@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, ref} from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
 import Login from './user/login/Login.vue'
 import Register from "./user/login/Register.vue";
 import Third from "./user/login/Third.vue";
@@ -73,8 +73,7 @@ export default defineComponent({
         // 默认回调
         const select = (index: Nav) => {
             router.push({
-                path: `/home/${index.index}`,
-                name: index.index
+                path: `/home/${index.index}`
             })
         }
 

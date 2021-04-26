@@ -6,34 +6,34 @@ import Picture from '../components/user/picture/Picture.vue'
 
 const routes = [
     {
+        path: '/',
+        redirect: '/home'
+    },
+    {
         path: '/home',
         component: Home,
         children: [
+            // {
+            //     path: '/:path',
+            //     component: Picture
+            // },
             {
                 path: 'recommend',
-                name: 'recommend',
                 component: Picture
             },
             {
                 path: 'comic',
-                name: 'comic',
                 component: Picture
             },
             {
                 path: 'scenery',
-                name: 'scenery',
                 component: Picture
             },
             {
                 path: 'life',
-                name: 'life',
                 component: Picture
             },
         ]
-    },
-    {
-        path: '/',
-        redirect: '/home'
     },
     {
         path: '/admin',

@@ -10,12 +10,26 @@
 </template>
 
 <script>
-import {defineComponent} from "vue";
+import {defineComponent, watch} from "vue";
+import { useRoute } from "vue-router";
+import axios from "../../../ajax/axios.ts"
 
 export default defineComponent({
     name: "Picture",
-    setup(props) {
-        console.log(props)
+    setup() {
+        const route = useRoute();
+
+        watch(route, () => {
+            console.log(route.path)
+            axios.get(route.path.slice(5))
+            .then(
+                res => {
+
+                },
+                err => {
+
+                })
+        })
         return {
             description: ['fill', 'contain', 'cover', 'none', 'scale-down', 'contain', 'contain', 'contain', 'contain', 'contain', 'contain', 'contain', 'contain'],
             url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
