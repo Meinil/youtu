@@ -13,10 +13,6 @@ const routes = [
         path: '/home',
         component: Home,
         children: [
-            // {
-            //     path: '/:path',
-            //     component: Picture
-            // },
             {
                 path: 'recommend',
                 component: Picture

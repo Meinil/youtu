@@ -1,0 +1,17 @@
+spring:
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3308/youtu?useSSL=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+        username: root
+        password: 123456
+    mvc:
+        static-path-pattern: /public/**
+
+mybatis-plus:
+    configuration:
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    type-enums-package: com.valid.youtu.enums
+
+server:
+    servlet:
+        context-path: /api
