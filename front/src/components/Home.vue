@@ -98,7 +98,7 @@ export default defineComponent({
     position: relative;
 }
 .login-container{
-    position: absolute;
+    position: absolute; 
     right: 0;
 }
 .logo {

@@ -7,32 +7,48 @@
             <div class="desc">师傅更多</div>
         </li>
     </ul>
+    <el-pagination
+        v-if="total!==0"
+        :page-size="8"
+        layout="prev, pager, next"
+        :total="total"
+        class="page"
+        @current-change="currentChange">
+    </el-pagination>
 </template>
 
 <script>
-import {defineComponent, watch} from "vue";
+import {defineComponent, ref, watch} from "vue";
 import { useRoute } from "vue-router";
 import axios from "../../../ajax/axios.ts"
 
 export default defineComponent({
     name: "Picture",
     setup() {
-        const route = useRoute();
+        const route = useRoute(); // 路由对象
+        const total = ref(100)
+        // const 
 
         watch(route, () => {
             console.log(route.path)
-            axios.get(route.path.slice(5))
+            axios.get(`/picture${route.path.slice(5)}/1`)
             .then(
                 res => {
-
+                    console.log(res)
                 },
                 err => {
 
                 })
         })
+
+        const currentChange = (page) => {
+            console.log(page)
+        }
         return {
-            description: ['fill', 'contain', 'cover', 'none', 'scale-down', 'contain', 'contain', 'contain', 'contain', 'contain', 'contain', 'contain', 'contain'],
-            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+            description: ['fill', 'contain', 'cover', 'none', 'scale-down', 'contain', 'contain', 'contain'],
+            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+            total,
+            currentChange
         }
     }
 })
@@ -80,5 +96,10 @@ export default defineComponent({
 .desc {
     box-sizing: border-box;
     padding: 10px;
+}
+
+.page {
+    margin-bottom: 10px;
+    text-align: center;
 }
 </style>

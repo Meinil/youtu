@@ -16,7 +16,8 @@ public class Picture {
     @TableField(fill = FieldFill.INSERT)
     private Date createTime; // 创建时间
 
-    @JsonIgnore // 返回后端时忽略此字段
+    @JsonIgnore
+    @TableField(exist = false)// 返回后端时忽略此字段
     private Classify classify; // 外键分类
 
     public Picture() {

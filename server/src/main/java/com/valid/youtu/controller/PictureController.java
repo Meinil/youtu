@@ -1,6 +1,6 @@
 package com.valid.youtu.controller;
 
-import com.valid.youtu.service.PictureService;
+import com.valid.youtu.service.PictureServiceImpl;
 import com.valid.youtu.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class PictureController {
 
     @Autowired
-    private PictureService pictureService;
+    private PictureServiceImpl pictureService;
 
-    @GetMapping("/picture/{name}")
-    public Result getPicture(@PathVariable("name") String name) {
-        return pictureService.getPicture(name);
+    @GetMapping("/picture/{name}/{page}")
+    public Result getPicture(@PathVariable("name") String name, @PathVariable("page") Integer page) {
+        return pictureService.getPictureByPage(name, page);
     }
 }
