@@ -1,8 +1,10 @@
-package com.valid.youtu.service;
+package com.valid.youtu.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.valid.youtu.entity.Picture;
 import com.valid.youtu.mapper.PictureMapper;
+import com.valid.youtu.service.PictureService;
 import com.valid.youtu.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,19 +14,20 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class PictureServiceImpl {
+public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture> implements PictureService {
     private static final Integer PAGE_NUM = 8;
     @Autowired
-    private PictureMapper pictureMapper;
+    private PictureMapper mapper;
 
+    @Override
     public Result getPictureByPage(String name, Integer pageNum) {
         // 页数不能小于1
         if (pageNum < 1) return new Result(Result.ERROR, null, "错误的请求参数");
 
         List<Picture> list = null;
-        Page<Picture> page = new Page<>((pageNum - 1) * PAGE_NUM, PAGE_NUM);
+        Page<Picture> page = new Page<>((long) (pageNum - 1) * PAGE_NUM, PAGE_NUM);
         if (name.equals("recommend")) {
-            pictureMapper.selectPage(page, null);
+            mapper.selectPage(page, null);
             list = page.getRecords();
         } else {
             String classify = getClassify(name);
@@ -32,13 +35,14 @@ public class PictureServiceImpl {
                 return new Result(Result.ERROR, null, "错误的请求参数");
             }
 
-            list = pictureMapper.getPicturesByClassify(page, classify).getRecords();
+            list = mapper.getPicturesByClassify(page, classify).getRecords();
         }
         Map<String, Object> map = new HashMap<>();
         map.put("pictures", list);
         return new Result(map, "请求成功");
     }
 
+    // 分类转换
     private String getClassify(String name) {
         switch (name) {
             case "comic":

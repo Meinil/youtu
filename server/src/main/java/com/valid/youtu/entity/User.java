@@ -11,6 +11,8 @@ public class User {
     private String id;
     private String userName;
     private String password;
+
+    @TableField(fill = FieldFill.INSERT)
     private Auth auth; // 权限
 
     // 插入时更新
@@ -21,6 +23,11 @@ public class User {
     private Integer version;
 
     public User() {
+    }
+
+    public User(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
     }
 
     public User(String id, String userName, String password, Auth auth, Date createTime, Integer version) {

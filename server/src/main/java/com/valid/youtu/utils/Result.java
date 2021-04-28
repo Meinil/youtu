@@ -66,4 +66,8 @@ public class Result {
     public void setData(Map<String, Object> data) {
         this.data = data;
     }
+
+    public void setDataValue(String key, Object value) {
+        data.put(key, value);
+    }
 }

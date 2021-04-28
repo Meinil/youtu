@@ -8,10 +8,14 @@ public enum Auth {
     VIP(2, "会员");
 
     @EnumValue // 枚举自动映射
-    private Integer code;
-    private String msg;
+    private final Integer code;
+    private final String msg;
     private Auth(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
+    }
+
+    public Integer getCode() {
+        return code;
     }
 }
