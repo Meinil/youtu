@@ -7,5 +7,5 @@ import com.valid.youtu.utils.Result;
 public interface UserService extends IService<User> {
     Result findUserByName(String username);
     Result register(String userName, String password);
-    Result login(String username, String password);
+    Result login(User user);
 }

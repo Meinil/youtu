@@ -1,30 +1,111 @@
 <template>
-    <el-input class="input" v-model="userName" placeholder="请输入账号"></el-input>
-    <el-input class="input" v-model="password" placeholder="请输入密码" show-password></el-input>
-    <el-button class="login" type="primary">登陆</el-button>
+    <el-form
+        status-icon
+        ref="ruleForm2" 
+        label-position="left" 
+        label-width="0px" 
+        class="demo-ruleForm login-page"
+        v-loading="isLoading">
+            <h3 class="title">登陆</h3>
+            <el-form-item prop="userName">
+                <el-input type="text"
+                    v-model="userName" 
+                    auto-complete="off" 
+                    placeholder="用户名" />
+            </el-form-item>
+            <el-form-item prop="password">
+                <el-input type="password" 
+                    v-model="password" 
+                    auto-complete="off" 
+                    placeholder="密码" />
+            </el-form-item>
+        <el-checkbox v-model="checked" class="rememberme">记住密码</el-checkbox>
+        <el-form-item style="width:100%;">
+            <el-button 
+                type="primary" 
+                style="width:100%;" 
+                @click="submit"
+                >登录</el-button>
+        </el-form-item>
+    </el-form>
 </template>
 
 <script>
-import {defineComponent, ref} from "vue";
+import {computed, defineComponent, ref} from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+
+import axios from "../../../utils/axios"
+import {saveToken, showMessage} from "../../../utils/resultUilts"
+import {OK} from "../../../utils/constant"
 
 export default defineComponent({
     name: "Login",
     setup() {
-        const userName = ref("")
-        const password = ref("")
+        const userName = ref("")    // 用户名
+        const password = ref("")    // 密码
+        const checked = ref(false)  // 记住密码
+        const router = useRouter()  // 路由对象
+        const store = useStore()    // store对象
+
+        const submit = () => {
+            store.commit("setLoading")
+            let name = userName.value.trim()
+            let pwd = password.value.trim()
+            if (name !== "" && pwd !== "") {
+                axios.post("/login", {
+                    userName: name,
+                    password: pwd
+                })
+                .then(
+                    res => {
+                        if (res.data.code !== OK) {
+                            showMessage(res.data.msg, false)
+                        } else {
+                            saveToken(res.data.data.token)
+                            showMessage("登陆成功，跳转主页面", true)
+                            setTimeout(() => {
+                                router.push("/home")
+                            }, 500)
+                        }
+                    },
+                    err => {
+                        console.log(err)
+                        showMessage("网络无连接,请重试", false)
+                    })
+            } else {
+              showMessage("用户名密码不能为空", false)
+            }
+        }
 
         return{
             userName,
-            password
+            password,
+            checked,
+            submit,
+            isLoading: computed(() => store.state.isLoading)
         }
     }
 })
 </script>
 <style scoped>
-    .input{
-        margin: 10px 0 10px 0;
+    .login-page {
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        margin: 180px auto;
+        width: 350px;
+        padding: 35px 35px 15px;
+        background: #fff;
+        border: 1px solid #eaeaea;
+        box-shadow: 0 0 25px #cac6c6;
+        text-align: center;
     }
-    .login{
-        width: 100%;
+
+    .title {
+        margin-bottom: 15px;
+    }
+    label.el-checkbox.rememberme {
+        margin: 0px 0px 15px;
+        text-align: left;
     }
 </style>

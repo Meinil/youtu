@@ -6,7 +6,8 @@
 </template>
 
 <script>
-import {defineComponent, ref} from "vue";
+import {defineComponent, ref} from "vue"
+import axios from "../../../utils/axios"
 
 export default defineComponent({
     name: "Register",

@@ -57,13 +57,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     // 登陆
     @Override
-    public Result login(String userName, String password) {
+    public Result login(User user) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.eq("user_name", userName);
-        wrapper.eq("password", password);
+        wrapper.eq("user_name", user.getUserName());
+        wrapper.eq("password", user.getPassword());
         Result result = new Result();
 
-        User user = mapper.selectOne(wrapper);
+        user = mapper.selectOne(wrapper);
         if (user == null) {
             result.setMsg("账号或者密码错误");
             result.setCode(Result.NOT_FOUND);

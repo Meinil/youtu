@@ -20,25 +20,26 @@
 <script>
 import {defineComponent, ref, watch} from "vue";
 import { useRoute } from "vue-router";
-import axios from "../../../ajax/axios.ts"
+import { mapState, useStore } from "vuex";
+import axios from "../../../utils/axios"
 
 export default defineComponent({
     name: "Picture",
     setup() {
-        const route = useRoute(); // 路由对象
-        const total = ref(100)
+        const store = useStore() // vuex
+        const route = useRoute() // 路由对象
+        const total = ref(100) // 分页对象的总数
         // const 
 
         watch(route, () => {
-            console.log(route.path)
-            axios.get(`/picture${route.path.slice(5)}/1`)
-            .then(
-                res => {
-                    console.log(res)
-                },
-                err => {
+            // axios.get(`/picture${route.path.slice(5)}/1`)
+            // .then(
+            //     res => {
+            //         console.log(res)
+            //     },
+            //     err => {
 
-                })
+            //     })
         })
 
         const currentChange = (page) => {
@@ -48,7 +49,7 @@ export default defineComponent({
             description: ['fill', 'contain', 'cover', 'none', 'scale-down', 'contain', 'contain', 'contain'],
             url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
             total,
-            currentChange
+            currentChange,
         }
     }
 })

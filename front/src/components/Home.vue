@@ -13,41 +13,29 @@
 
         <el-submenu index="personal" class="login-container">
             <template #title>{{loginMsg}}</template>
-            <el-menu-item index="5-1" v-if="isLogin">个人资料</el-menu-item>
+            <el-menu-item index="5-1" v-if="isLogin">
+                <router-link>个人资料</router-link>
+            </el-menu-item>
             <el-menu-item index="5-2" v-if="isLogin">我的收藏</el-menu-item>
             <el-menu-item index="5-3" v-if="isLogin">我的上传</el-menu-item>
             <el-menu-item index="5-4" v-if="isLogin">退出登陆</el-menu-item>
-            <el-menu-item index="5-5" v-if="!isLogin" @click="dialogVisible = true">点我登陆</el-menu-item>
+            <el-menu-item index="5-5" v-if="!isLogin">
+                <router-link to="/login">点我登陆</router-link>
+            </el-menu-item>
         </el-submenu>
     </el-menu>
-
-    <el-dialog
-        v-model="dialogVisible"
-        width="30%"
-        center>
-        <div class="account">
-            <el-tabs v-model="activeName">
-                <el-tab-pane label="登陆" name="first">
-                    <Login />
-                </el-tab-pane>
-                <el-tab-pane label="注册" name="second">
-                    <Register />
-                </el-tab-pane>
-                <el-tab-pane label="第三方" name="third">
-                    <Third />
-                </el-tab-pane>
-            </el-tabs>
-        </div>
-    </el-dialog>
     <router-view></router-view>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+import { computed, defineComponent, onMounted, ref } from 'vue'
+import {useRouter} from "vue-router";
+
 import Login from './user/login/Login.vue'
 import Register from "./user/login/Register.vue";
 import Third from "./user/login/Third.vue";
-import {useRouter} from "vue-router";
+
+import { useStore } from 'vuex';
 
 interface Nav {
     index: string,
@@ -62,13 +50,11 @@ export default defineComponent({
         Login
     },
     setup() {
-        // 引入路由
-        const router = useRouter()
+        const router = useRouter() // 路由
+        const store = useStore() // store
 
         const loginMsg = ref("登陆")
-        const isLogin = ref(false)
         const activeName = ref('first')
-        const dialogVisible = ref(false) // 登陆对话框
 
         // 默认回调
         const select = (index: Nav) => {
@@ -84,10 +70,10 @@ export default defineComponent({
 
         return {
             loginMsg,
-            isLogin,
-            dialogVisible,
             select,
-            activeName
+            activeName,
+            isLogin: computed(() => store.state.isLogin),
+            isLoading: computed(() => store.state.isLoading)
         }
     }
 })

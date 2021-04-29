@@ -10,7 +10,7 @@ const app = createApp(App)
 
 app.use(ElementPlus)
 
-app.use(router) // 路由
 app.use(store) // vuex
+app.use(router) // 路由
 
 app.mount('#app')

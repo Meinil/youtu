@@ -20,14 +20,27 @@ public class Picture {
     @TableField(exist = false)// 返回后端时忽略此字段
     private Classify classify; // 外键分类
 
+    @JsonIgnore
+    @TableField(fill = FieldFill.INSERT)
+    private boolean show;
+
     public Picture() {
     }
 
-    public Picture(String id, String name, Date createTime, Classify classify) {
+    public Picture(String id,
+                   String name,
+                   Date createTime,
+                   Classify classify,
+                   boolean show) {
         this.id = id;
         this.name = name;
         this.createTime = createTime;
         this.classify = classify;
+        this.show = show;
+    }
+
+    public void setShow(boolean show) {
+        this.show = show;
     }
 
     public void setId(String id) {
@@ -44,6 +57,10 @@ public class Picture {
 
     public void setClassify(Classify classify) {
         this.classify = classify;
+    }
+
+    public boolean isShow() {
+        return show;
     }
 
     public String getId() {

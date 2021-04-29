@@ -13,6 +13,7 @@ public class MyMetaHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         this.setFieldValByName("createTime", new Date(), metaObject);
         this.setFieldValByName("auth", Auth.GENERAL, metaObject);
+        this.setFieldValByName("show", false, metaObject);
     }
 
     @Override
