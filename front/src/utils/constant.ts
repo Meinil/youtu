@@ -8,6 +8,8 @@ const NOT_FOUND = 2         //未找到资源
 const RESOURCE_CONFLICT = 3 // 资源冲突
 const ERROR = 4             //未知的错误
 
+const STATIC_PATH = "http://127.0.0.1:8080" // 静态资源
+
 export {
     BASE_URL,
     TOKEN,
@@ -15,5 +17,6 @@ export {
     NOT_AUTHORIZATION,
     NOT_FOUND,
     RESOURCE_CONFLICT,
-    ERROR
+    ERROR,
+    STATIC_PATH
 }

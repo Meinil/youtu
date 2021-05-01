@@ -37,16 +37,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     // 注册
     @Override
-    public Result register(String userName, String password) {
+    public Result register(User user) {
 
-        User user = new User(userName, password);
         Result result = new Result();
-
         try {
             mapper.insert(user);
             result.setMsg("创建用户成功");
-            result.setData(new HashMap<>());
-            result.setDataValue("token", TokenUtil.getToken(user)); // 发放token
+            result.put("token", TokenUtil.getToken(user)); // 发放token
         } catch (Exception e) {
             result.setMsg("用户已经存在");
             result.setCode(Result.RESOURCE_CONFLICT);
@@ -68,8 +65,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             result.setMsg("账号或者密码错误");
             result.setCode(Result.NOT_FOUND);
         } else {
-            result.setData(new HashMap<>());
-            result.setDataValue("token", TokenUtil.getToken(user)); // 发放token
+            result.put("token", TokenUtil.getToken(user)); // 发放token
             result.setMsg("请求成功");
         }
 

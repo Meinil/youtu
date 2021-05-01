@@ -22,25 +22,28 @@ public class Picture {
 
     @JsonIgnore
     @TableField(fill = FieldFill.INSERT)
-    private boolean show;
+    private boolean isShow; // 是否显示
+
+    private String story; //图片描述信息
 
     public Picture() {
     }
 
-    public Picture(String id,
-                   String name,
-                   Date createTime,
-                   Classify classify,
-                   boolean show) {
+    public Picture(String id, String name, Date createTime, Classify classify, boolean isShow, String story) {
         this.id = id;
         this.name = name;
         this.createTime = createTime;
         this.classify = classify;
-        this.show = show;
+        this.isShow = isShow;
+        this.story = story;
+    }
+
+    public void setStory(String story) {
+        this.story = story;
     }
 
     public void setShow(boolean show) {
-        this.show = show;
+        isShow = show;
     }
 
     public void setId(String id) {
@@ -59,8 +62,12 @@ public class Picture {
         this.classify = classify;
     }
 
-    public boolean isShow() {
-        return show;
+    public String getStory() {
+        return story;
+    }
+
+    public boolean getIsShow() {
+        return isShow;
     }
 
     public String getId() {

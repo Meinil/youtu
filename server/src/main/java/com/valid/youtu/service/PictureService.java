@@ -6,4 +6,5 @@ import com.valid.youtu.utils.Result;
 
 public interface PictureService extends IService<Picture> {
     Result getPictureByPage(String name, Integer pageNum);
+    Result getTotal(String name);
 }

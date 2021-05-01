@@ -7,6 +7,11 @@
         class="demo-ruleForm login-page"
         v-loading="isLoading">
             <h3 class="title">登陆</h3>
+            <p class="register">
+                没有账号?
+                <router-link to="/register"> 点此注册</router-link>
+            </p>
+
             <el-form-item prop="userName">
                 <el-input type="text"
                     v-model="userName" 
@@ -49,7 +54,6 @@ export default defineComponent({
         const store = useStore()    // store对象
 
         const submit = () => {
-            store.commit("setLoading")
             let name = userName.value.trim()
             let pwd = password.value.trim()
             if (name !== "" && pwd !== "") {
@@ -59,14 +63,16 @@ export default defineComponent({
                 })
                 .then(
                     res => {
-                        if (res.data.code !== OK) {
-                            showMessage(res.data.msg, false)
+                        if (res.code !== OK) {
+                            showMessage(res.msg, false)
                         } else {
-                            saveToken(res.data.data.token)
+                            saveToken(res.data.token)
                             showMessage("登陆成功，跳转主页面", true)
-                            setTimeout(() => {
-                                router.push("/home")
-                            }, 500)
+                            store.commit("setLoading")
+                            console.log("Login" + store.state.isLogin)
+                            router.replace({path: "/home/recommend"}).catch(err => {
+                                console.log(err)
+                            })
                         }
                     },
                     err => {
@@ -107,5 +113,9 @@ export default defineComponent({
     label.el-checkbox.rememberme {
         margin: 0px 0px 15px;
         text-align: left;
+    }
+    .register {
+        font-size: 12px;
+        margin-bottom: 10px;
     }
 </style>

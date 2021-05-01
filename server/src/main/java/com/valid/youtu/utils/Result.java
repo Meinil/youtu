@@ -2,6 +2,7 @@ package com.valid.youtu.utils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /*
@@ -67,7 +68,10 @@ public class Result {
         this.data = data;
     }
 
-    public void setDataValue(String key, Object value) {
+    public void put(String key, Object value) {
+        if (data == null) {
+            data = new HashMap<>();
+        }
         data.put(key, value);
     }
 }

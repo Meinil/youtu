@@ -1,12 +1,15 @@
 import {createRouter, createWebHashHistory} from "vue-router";
 
-import Home from '../components/Home.vue'
-import Admin from '../components/admin/Admin.vue'
-import Picture from '../components/user/picture/Picture.vue'
-import Login from '../components/user/login/Login.vue'
+import store from "../store/store"
 
-import store from '../store/store'
-import { TOKEN } from '../utils/constant'
+import { TOKEN } from "../utils/constant"
+import { showMessage } from "../utils/resultUilts"
+
+import Home from "../components/Home.vue"
+import Admin from "../components/admin/Admin.vue"
+import Picture from "../components/user/picture/Picture.vue"
+import Login from "../components/user/login/Login.vue"
+import Register from "../components/user/login/Register.vue"
 
 const routes = [
     {
@@ -19,46 +22,62 @@ const routes = [
         children: [
             {
                 path: 'recommend',
-                component: Picture
+                component: Picture,
             },
             {
                 path: 'comic',
-                component: Picture
+                component: Picture,
             },
             {
                 path: 'scenery',
-                component: Picture
+                component: Picture,
             },
             {
                 path: 'life',
-                component: Picture
-            },
+                component: Picture,
+            }
         ]
     },
     {
         path: '/admin',
         component: Admin,
-        meta: {}
     },
     {
         path: '/login',
         component: Login,
-        meta: {}
+    },
+    {
+        path: '/register',
+        component: Register,
+    },
+    {
+        path: "/profile",
+        component: () => import("../components/user/profile/Profile.vue"),
+        meta: {
+            isCheck: true
+        }
     }
 ]
 
 const router = createRouter({
     history: createWebHashHistory(),
-    routes, // `routes: routes` 的缩写
+    routes
 })
 
-// router.beforeEach((to, from, next) => {
-//     if (!store.state.isLogin || TOKEN === "") {
-//         next("/login")
-//     } else {
-
-//     }
-//     next()
-// })
+router.beforeEach((to, from, next) => {
+    if (to.meta.isCheck) {
+        if (TOKEN) {
+            next("/login")
+        } else if (store.state.exp <= Date.now() / 1000) {
+            showMessage("身份过期请重新登陆", false)
+            if (store.state.isLogin) {
+                store.commit("setInfo") // 修改登陆状态
+            }
+            next("/login")
+        }
+    } else {
+        next()
+    }
+})
 
 export default router

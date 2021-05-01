@@ -1,5 +1,7 @@
 import { createStore } from 'vuex'
 
+import { TOKEN } from "../utils/constant"
+
 interface State {
     isLogin: boolean,
     auth: number,
@@ -11,7 +13,7 @@ interface State {
 export default createStore({
     state () {
         return {
-            isLogin: false,
+            isLogin: TOKEN !== null,
             auth: -1, // 权限
             exp: -1, // 过期时间
             name: "", // 用户名
@@ -28,6 +30,7 @@ export default createStore({
                 state.auth = -1
                 state.exp = -1
                 state.name = ""
+                localStorage.removeItem('token') // 移除token
             } else {
                 state.auth = parseInt(info.auth)
                 state.exp = parseInt(info.exp)
@@ -35,8 +38,8 @@ export default createStore({
             }
         },
         // 设置登陆状态
-        setLogin: (state: State, login: boolean) => {
-            state.isLogin = login
+        setLogin: (state: State) => {
+            state.isLogin = !state.isLogin
         },
 
         // 设置加载状态

@@ -5,6 +5,7 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.valid.youtu.utils.RequiredToken;
 import com.valid.youtu.utils.Result;
 import com.valid.youtu.utils.TokenUtil;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,8 @@ public class TokenInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)throws Exception{
 
+//        if (method.isAnnotationPresent(RequiredToken.class)) {}
+
         if(request.getMethod().equals("OPTIONS")){
             response.setStatus(200);
             return true;
@@ -25,7 +28,7 @@ public class TokenInterceptor implements HandlerInterceptor {
         Result result = new Result();
         String token = request.getHeader("Authorization");
         try {
-            DecodedJWT tokenInfo = TokenUtil.verify(token);  // 获取令牌
+            TokenUtil.verify(token);  // 获取令牌
             return true;
         } catch (SignatureVerificationException e) {
             e.printStackTrace();  // 签名异常

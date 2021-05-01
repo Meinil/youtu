@@ -1,5 +1,6 @@
 package com.valid.youtu.controller;
 
+import com.valid.youtu.entity.User;
 import com.valid.youtu.service.UserService;
 import com.valid.youtu.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public Result register(@RequestParam("userName") String userName,
-                           @RequestParam("password") String password) {
-        return userService.register(userName, password);
+    public Result register(@RequestBody User user) {
+        return userService.register(user);
     }
 }

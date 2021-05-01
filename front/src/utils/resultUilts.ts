@@ -2,8 +2,9 @@ import { ElMessage } from "element-plus"
 import store from "../store/store"
 
 // 设置TOKEN
-const saveToken = (token: string) => {
+const saveToken = (token: string | null) => {
     if (token != null) {
+        localStorage.setItem("token", token)
         let tokenInfo = token.split(".")
         let info =JSON.parse(window.atob(tokenInfo[1]))
         store.commit("setInfo", info)
@@ -20,16 +21,15 @@ const showMessage = (msg: string, isSuccess: boolean) => {
         ElMessage.success({
             message: msg,
             type: "success",
-            duration: 2000
+            duration: 500
         })
     } else {
         ElMessage.error({
             message: msg,
             type: "error",
-            duration: 2000
+            duration: 500
         })
     }
-    store.commit("setLoading")
 }
 
 export {

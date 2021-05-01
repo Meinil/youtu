@@ -17,7 +17,6 @@ public class TokenUtil {
         String token = null;
         try {
             Date expiresAt = new Date(System.currentTimeMillis() + EXPIRE_TIME);
-            System.out.println(expiresAt.getTime());
             token = JWT.create()
                     .withIssuer(ISSUER)
                     .withClaim("username", user.getUserName()) // 保存用户名

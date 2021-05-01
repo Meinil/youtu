@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 
 import java.util.List;
 
@@ -28,10 +29,14 @@ public class TestUserMapper {
     }
 
     @DisplayName("测试插入和测试默认值")
+    @Rollback(value = true)
     @Test
     public void testInsert() {
         System.out.println("----- 测试插入和测试默认值 ------");
         User user = new User();
+        user.setUserName("asdf");
+        user.setPassword("11wdfasdf");
+
         userMapper.insert(user);
     }
 }
