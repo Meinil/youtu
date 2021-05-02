@@ -1,12 +1,12 @@
 import { ElMessage } from "element-plus"
 import store from "../store/store"
+import { parseToken } from "./utils" 
+
 
 // 设置TOKEN
 const saveToken = (token: string | null) => {
     if (token != null) {
-        localStorage.setItem("token", token)
-        let tokenInfo = token.split(".")
-        let info =JSON.parse(window.atob(tokenInfo[1]))
+        let info = parseToken(token)
         store.commit("setInfo", info)
         store.commit("setLogin", true)
     } else {

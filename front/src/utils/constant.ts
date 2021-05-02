@@ -1,5 +1,7 @@
+import { parseToken, getItem } from "./utils"
+
 const BASE_URL = "http://127.0.0.1:8080/youtu/api/" // 基础URL
-const TOKEN = localStorage.getItem('token') === null ? '' : localStorage.getItem('token') // token
+const TOKEN = parseToken(null) === null ? null : getItem("token") // token
 
 // 状态码
 const OK = 0                // 请求成功
@@ -8,7 +10,11 @@ const NOT_FOUND = 2         //未找到资源
 const RESOURCE_CONFLICT = 3 // 资源冲突
 const ERROR = 4             //未知的错误
 
-const STATIC_PATH = "http://127.0.0.1:8080" // 静态资源
+const STATIC_PATH = "http://127.0.0.1:8080"                     // 静态资源
+const AUTH = getItem("auth") === null ? -1 : getItem("auth")    // 权限
+const EXP = getItem("exp") === null ? -1 : getItem("exp")       // 过期时间
+const NAME = getItem("exp") === null ? "" : getItem("name")     // 用户名
+
 
 export {
     BASE_URL,
@@ -18,5 +24,8 @@ export {
     NOT_FOUND,
     RESOURCE_CONFLICT,
     ERROR,
-    STATIC_PATH
+    STATIC_PATH,
+    AUTH,
+    EXP,
+    NAME
 }

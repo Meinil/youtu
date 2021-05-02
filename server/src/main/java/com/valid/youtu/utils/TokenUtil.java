@@ -9,8 +9,9 @@ import java.util.Date;
 
 public class TokenUtil {
     private static final String ISSUER = "youtu";
-    private static final long EXPIRE_TIME = 15*60*1000;
-    private static final String TOKEN_SECRET = UUIDUtil.getUUID();  //密钥盐
+    private static final long EXPIRE_TIME = 24*60*60*1000;
+//    private static final String TOKEN_SECRET = UUIDUtil.getUUID();  //密钥盐
+    private static final String TOKEN_SECRET = "UUIDUtil.getUUID()";  //密钥盐
 
     // 获取token
     public static String getToken(User user){

@@ -1,12 +1,12 @@
 import { createStore } from 'vuex'
 
-import { TOKEN } from "../utils/constant"
+import { TOKEN, AUTH, EXP, NAME } from "../utils/constant"
 
 interface State {
     isLogin: boolean,
-    auth: number,
-    exp: number,
-    name: string,
+    auth: number | string | null,
+    exp: number | string | null,
+    name: string | null,
     isLoading: boolean
 }
 
@@ -14,9 +14,9 @@ export default createStore({
     state () {
         return {
             isLogin: TOKEN !== null,
-            auth: -1, // 权限
-            exp: -1, // 过期时间
-            name: "", // 用户名
+            auth: AUTH, // 权限
+            exp: EXP, // 过期时间
+            name: NAME, // 用户名
 
             isLoading: false
         }
@@ -25,16 +25,17 @@ export default createStore({
     mutations: {
         // 设置从token中解析的信息
         setInfo: (state: State, info) => {
-            if (info == null) {
+            if (info === null) {
                 state.isLogin = false
                 state.auth = -1
                 state.exp = -1
                 state.name = ""
-                localStorage.removeItem('token') // 移除token
+                localStorage.clear() // 移除token
             } else {
                 state.auth = parseInt(info.auth)
                 state.exp = parseInt(info.exp)
                 state.name = info.username
+                state.isLogin = true
             }
         },
         // 设置登陆状态

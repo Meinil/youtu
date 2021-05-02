@@ -56,6 +56,13 @@ const routes = [
         meta: {
             isCheck: true
         }
+    },
+    {
+        path: "/upload",
+        component: () => import("../components/user/Upload.vue"),
+        meta: {
+            isCheck: true
+        }
     }
 ]
 
@@ -66,14 +73,18 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     if (to.meta.isCheck) {
-        if (TOKEN) {
+        if (TOKEN === null) {
             next("/login")
-        } else if (store.state.exp <= Date.now() / 1000) {
-            showMessage("身份过期请重新登陆", false)
-            if (store.state.isLogin) {
-                store.commit("setInfo") // 修改登陆状态
+        } else if (store.state.exp !== null) {
+            if (store.state.exp <= Date.now() / 1000) {
+                showMessage("身份过期请重新登陆", false)
+                if (store.state.isLogin) {
+                    store.commit("setInfo") // 修改登陆状态
+                }
+                next("/login")
+            } else {
+                next()
             }
-            next("/login")
         }
     } else {
         next()

@@ -4,7 +4,14 @@
             <div class="picture">
                 <img :src="STATIC_PATH + img.name" alt="图片列表" class="picture-img"/>
             </div>
-            <div class="desc">{{img.story}}</div>
+            <div class="desc">
+                <el-button>
+                    <a :href="STATIC_PATH + img.name">下载</a>
+                </el-button>
+                <el-button>收藏</el-button><br />
+                <p class="story author">{{img.story}}</p>
+                <p class="author">Author: {{img.owner}}</p>
+            </div>
         </li>
     </ul>
     <el-pagination
@@ -83,6 +90,8 @@ export default defineComponent({
 <style scoped>
     .img-container {
         text-align: center;
+        width: 1200px;
+        margin: 0 auto;
         margin-top: 20px;
     }
     .block{
@@ -96,13 +105,9 @@ export default defineComponent({
         text-align: center;
         display: inline-block;
         border: 2px rgba(193, 193, 193, .4) solid;
+        box-shadow: 10px 10px 10px rgba(226, 226, 226, .8);
     }
 
-    .block:hover {
-        transform:translateY(-3px) translateX(-3px);
-        box-shadow: 10px 10px 5px rgba(226, 226, 226, .8);
-        transition: 2s;
-    }
     .img-container:first-child {
         margin-left: 0;
     }
@@ -128,5 +133,22 @@ export default defineComponent({
     .page {
         margin-bottom: 10px;
         text-align: center;
+    }
+
+    a{
+        text-decoration: none;
+        color: #606266;
+    }
+    a:hover{
+        color: #409EFF;
+    }
+
+    .story {
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
+
+    .author{
+        color: #606266;
     }
 </style>

@@ -69,14 +69,12 @@ export default defineComponent({
                             saveToken(res.data.token)
                             showMessage("登陆成功，跳转主页面", true)
                             store.commit("setLoading")
-                            console.log("Login" + store.state.isLogin)
                             router.replace({path: "/home/recommend"}).catch(err => {
                                 console.log(err)
                             })
                         }
                     },
                     err => {
-                        console.log(err)
                         showMessage("网络无连接,请重试", false)
                     })
             } else {

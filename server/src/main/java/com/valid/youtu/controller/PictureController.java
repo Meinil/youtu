@@ -1,12 +1,12 @@
 package com.valid.youtu.controller;
 
+import com.valid.youtu.entity.Picture;
 import com.valid.youtu.service.PictureService;
+import com.valid.youtu.utils.RequiredToken;
 import com.valid.youtu.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/picture")
@@ -25,5 +25,13 @@ public class PictureController {
     @GetMapping("/{name}")
     public Result getTotal(@PathVariable("name") String name) {
         return pictureService.getTotal(name);
+    }
+
+    @RequiredToken
+    @PostMapping("/upload")
+    public Result upload(@RequestParam("file") MultipartFile file,
+                         @RequestBody Picture picture)  {
+        System.out.println(picture);
+        return pictureService.upload(file);
     }
 }

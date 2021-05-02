@@ -6,6 +6,13 @@ spring:
         password: 123456
     mvc:
         static-path-pattern: /res/**
+    servlet:
+        multipart:
+            max-request-size: 10MB  # 上传文件的总的最大值
+            max-file-size: 1MB      # 单个文件的最大值
+    web:
+        resources:
+            static-locations: classpath:public/,file:public/
 
 mybatis-plus:
     configuration:

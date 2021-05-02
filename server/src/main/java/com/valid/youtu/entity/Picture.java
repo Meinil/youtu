@@ -24,18 +24,37 @@ public class Picture {
     @TableField(fill = FieldFill.INSERT)
     private boolean isShow; // 是否显示
 
+    private String owner; // 拥有者
+
     private String story; //图片描述信息
 
     public Picture() {
     }
 
-    public Picture(String id, String name, Date createTime, Classify classify, boolean isShow, String story) {
+    public Picture(String name, String owner, Classify classify) {
+        this.name = name;
+        this.owner = owner;
+        this.classify = classify;
+    }
+
+    public Picture(String id,
+                   String name,
+                   Date createTime,
+                   Classify classify,
+                   boolean isShow,
+                   String owner,
+                   String story) {
         this.id = id;
         this.name = name;
         this.createTime = createTime;
         this.classify = classify;
         this.isShow = isShow;
+        this.owner = owner;
         this.story = story;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public void setStory(String story) {
@@ -60,6 +79,10 @@ public class Picture {
 
     public void setClassify(Classify classify) {
         this.classify = classify;
+    }
+
+    public String getOwner() {
+        return owner;
     }
 
     public String getStory() {

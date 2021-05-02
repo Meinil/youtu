@@ -2,15 +2,20 @@ package com.valid.youtu.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.valid.youtu.entity.Classify;
 import com.valid.youtu.entity.Picture;
 import com.valid.youtu.mapper.PictureMapper;
 import com.valid.youtu.service.PictureService;
 import com.valid.youtu.utils.Result;
+import com.valid.youtu.utils.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.util.List;
 
 @Service
@@ -70,6 +75,39 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture> impl
         return result;
     }
 
+    // 文件上传
+    @Override
+    public Result upload(MultipartFile file) {
+        Result result = new Result();
+        // 获取文件名
+        String fileName = file.getOriginalFilename();
+
+        if(file.isEmpty()) {
+            result.setMsg("文件名不能为空");
+            result.setCode(Result.NOT_FOUND);
+            return result;
+        }
+
+        File path = null;
+        try {
+            path = new File(ResourceUtils.getURL("classpath:").getPath());
+            File upload = new File(path.getAbsolutePath(),"public/picture/");
+            if(!upload.exists()) { // 不存在则创建
+                upload.mkdirs();
+            }
+            // 文件名重写
+            fileName = UUIDUtil.getUUID() + fileName.substring(fileName.lastIndexOf("."));
+            file.transferTo(new File(path.getAbsolutePath(), "public/picture/" + fileName));
+            result.setMsg("保存成功");
+            mapper.insert(new Picture(fileName, "admin", new Classify()));
+        } catch (Exception e) {
+            result.setMsg("文件已经存在");
+            result.setCode(Result.RESOURCE_CONFLICT);
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     // 分类转换
     private String getClassify(String name) {
         switch (name) {
@@ -87,6 +125,4 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture> impl
     public void setPath(String p) {
         path = p + "/res/picture/";
     }
-
-
 }

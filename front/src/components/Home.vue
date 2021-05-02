@@ -3,7 +3,7 @@
         class="el-menu-demo"
         mode="horizontal"
         default-active="recommend">
-        <router-link to="/home">
+        <router-link to="/home/recommend">
             <img class="logo" src="../assets/logo.png" alt="logo">
         </router-link>
         <el-menu-item index="recommend" @click="select">推荐</el-menu-item>
@@ -15,7 +15,8 @@
             <template #title>{{loginMsg}}</template>
             <el-menu-item index="5-1" v-if="isLogin" @click="jump('/profile/personal')">个人资料</el-menu-item>
             <el-menu-item index="5-2" v-if="isLogin" @click="jump('/profile/personal')">我的收藏</el-menu-item>
-            <el-menu-item index="5-3" v-if="isLogin" @click="jump('/profile/personal')">我的上传</el-menu-item>
+            <el-menu-item index="5-3" v-if="isLogin" @click="jump('/upload')">我的上传</el-menu-item>
+            <el-menu-item index="5-3" v-if="isLogin.value && (auth.value==0)" @click="jump('/admin')">管理员界面</el-menu-item>
             <el-menu-item index="5-4" v-if="isLogin" @click="logOut">退出登陆</el-menu-item>
             <el-menu-item index="5-5" v-if="!isLogin" @click="jump('/login')">点我登陆</el-menu-item>
         </el-submenu>
@@ -53,12 +54,15 @@ export default defineComponent({
         const router = useRouter() // 路由
         const store = useStore() // store
 
-        const loginMsg = ref("登陆")
-        const activeName = ref("recommend")
+        const loginMsg = ref("登陆") // 登陆信息
+        const activeName = ref("recommend") // 默认激活
 
+        const auth = computed(() => store.state.auth) // 权限
+        const isLogin = computed(() => store.state.isLogin) // 登陆信息
         // 默认回调
         const select = (nav: Nav) => {
             activeName.value = nav.index
+            console.log(isLogin.value && (auth.value==0))
             router.push(`/home/${nav.index}`)
         }
 
@@ -71,7 +75,7 @@ export default defineComponent({
 
         // 退出登陆
         const logOut = () => {
-            store.commit("setInfo")
+            store.commit("setInfo", null)
             showMessage("退出成功", true)
         }
 
@@ -85,7 +89,8 @@ export default defineComponent({
             jump,
             logOut,
             activeName,
-            isLogin: computed(() => store.state.isLogin),
+            isLogin,
+            auth,
             isLoading: computed(() => store.state.isLoading)
         }
     }
@@ -93,8 +98,16 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
+    html, body {
+        width: 1200px;
+        margin: 0 auto;
+    }
+
     .el-menu-demo {
         position: relative;
+        width: 1200px;
+        margin: 0 auto;
     }
     .login-container{
         position: absolute; 
