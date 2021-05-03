@@ -24,13 +24,19 @@
     </el-pagination>
 </template>
 
-<script>
-import {defineComponent, ref, toRefs, watch} from "vue";
+<script lang="ts">
+import {defineComponent, ref, toRefs, watch, Ref} from "vue";
 
 import { showMessage } from "../../../utils/resultUilts"
 import axios from "../../../utils/axios"
 import { STATIC_PATH } from "../../../utils/constant"
 
+interface Data{
+    id: string,
+    name: string,
+    story: string,
+    owner: string
+}
 export default defineComponent({
     name: "Picture",
     props: [
@@ -40,11 +46,12 @@ export default defineComponent({
         const total = ref(100) // 分页对象的总数
         const page = ref(1) // 当前的页数
 
-        const data = ref([])
+        // const data = ref([])
+        const data: Ref<Data[]> = ref([])
         const {activeName} = toRefs(props)
 
         // 请求图片内容
-        const request = (path) => {
+        const request = (path: string) => {
             axios.get(`/picture/${path}/${page.value}`)
             .then(res => {
                 data.value = res.data.pictures
@@ -55,7 +62,7 @@ export default defineComponent({
         }
 
         // 请求total
-        const reqTotal = (path) => {
+        const reqTotal = (path: string) => {
             axios.get(`/picture/${path}`)
             .then(res => {
                 total.value = res.data.total
@@ -65,7 +72,7 @@ export default defineComponent({
             })
         }
 
-        watch(activeName, (current) => {
+        watch(activeName, (current: string) => {
             page.value = 1
             reqTotal(current) // 请求总数
             request(current) // 请求内容
@@ -73,7 +80,7 @@ export default defineComponent({
             immediate: true
         })
 
-        const currentChange = (p) => {
+        const currentChange = (p: number) => {
             page.value = p
             request(activeName.value)
         }
