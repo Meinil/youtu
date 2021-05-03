@@ -7,7 +7,7 @@ html, body, div, ul, li, h1, h2, h3, h4, h5, h6, p, dl, dt, dd, ol, form, input,
     box-sizing: border-box;
 }
 html, body {
-    margin: 0 auto;
     min-height: 100%;
-    width: 1200px;
+    /* width: 1200px;
+    margin: 0 auto; */
 }
