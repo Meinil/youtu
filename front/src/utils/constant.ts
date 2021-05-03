@@ -1,6 +1,5 @@
 import { parseToken, getItem } from "./utils"
 
-const BASE_URL = "http://127.0.0.1:8080/youtu/api/" // 基础URL
 const TOKEN = parseToken(null) === null ? null : getItem("token") // token
 
 // 状态码
@@ -10,7 +9,9 @@ const NOT_FOUND = 2         //未找到资源
 const RESOURCE_CONFLICT = 3 // 资源冲突
 const ERROR = 4             //未知的错误
 
-const STATIC_PATH = "http://127.0.0.1:8080"                     // 静态资源
+const STATIC_PATH = import.meta.env.VITE_HOST                    // 静态资源
+const BASE_URL = STATIC_PATH + "/youtu/api/"                    // 基础URL
+
 const AUTH = getItem("auth") === null ? -1 : getItem("auth")    // 权限
 const EXP = getItem("exp") === null ? -1 : getItem("exp")       // 过期时间
 const NAME = getItem("exp") === null ? "" : getItem("name")     // 用户名
