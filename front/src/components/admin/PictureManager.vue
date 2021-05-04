@@ -1,8 +1,7 @@
 <template>
     <el-row class="m-t-20">
-        <el-table :data="list"
+        <el-table
             border
-            :height="h"
             :key="toggleIndex"
             id="out-table"
             class="nowrap">

@@ -1,8 +1,7 @@
 <template>
     <el-table
         :data="data"
-        style="width: 100%"
-        :key="tableIndex">
+        style="width: 100%">
         <el-table-column
             label="日期"
             width="200">
