@@ -1,6 +1,5 @@
 package com.valid.youtu.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.valid.youtu.entity.Classify;
 import com.valid.youtu.entity.Picture;
@@ -8,7 +7,6 @@ import com.valid.youtu.mapper.PictureMapper;
 import com.valid.youtu.service.PictureService;
 import com.valid.youtu.utils.Result;
 import com.valid.youtu.utils.UUIDUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -16,19 +14,25 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture> implements PictureService {
     private static final Integer PAGE_NUM = 8; // 默认一页的大小
-
     private static String path; // 静态资源的路径
 
     @Resource
     private PictureMapper mapper;
 
+    /*
+    * isShow 0 查询没有审批的图
+    * isShow 1 查询已经审批的图
+    * isShow 2 查询所有的图
+    * */
     @Override
-    public Result getPictureByPage(String name, Integer pageNum) {
+    public Result getPictureByPage(String name, Integer pageNum, Integer isShow) {
         Result result = new Result();
         // 页数小于1,返回总页数
         if (pageNum < 1) {
@@ -37,20 +41,25 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture> impl
             return result;
         }
 
-        List<Picture> list = null;
-        if (name.equals("recommend")) {
-            list = mapper.getPicturesPages((pageNum - 1) * PAGE_NUM, PAGE_NUM);
-            System.out.println(list.toString() + "=========");
-        } else {
-            String classify = getClassify(name);
-            if (classify == null) {
+        // 构造查询条件
+        Map<String, Object> map = new HashMap<>();
+        map.put("page", (pageNum - 1) * PAGE_NUM);
+        map.put("total", PAGE_NUM);
+        if (isShow < 2) {
+            map.put("isShow", isShow);
+        }
+
+        if (!name.equals("recommend")) {
+            name = getClassify(name); // 获取对应的分类名称
+            if (name == null) {
                 result.setCode(Result.ERROR);
                 result.setMsg("错误的请求参数");
                 return result;
             }
-
-            list = mapper.getPicturesPagesByClassify((pageNum - 1) * PAGE_NUM, PAGE_NUM, classify);
+            map.put("name", name); // 分裂
         }
+
+        List<Picture> list = mapper.getPicturesPages(map);
         list.forEach(picture -> {
             picture.setName(path + picture.getName());
         });
@@ -61,16 +70,19 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture> impl
 
     // 获取某一分类的总数
     @Override
-    public Result getTotal(String name) {
+    public Result getTotal(String name, Integer isShow) {
         Result result = new Result();
-        String classify = getClassify(name);
-        int count = 0;
-        if (classify == null) {
-            count = mapper.getTotal(true);
-        } else {
-            count = mapper.getTotalByClassify(classify, true);
+
+        Map<String, Object> map = new HashMap<>();
+        if (isShow < 2 ) {
+            map.put("isShow", isShow);
         }
-        result.put("total", count);
+
+        String classify = getClassify(name);
+        if (classify != null) {
+            map.put("name", classify);
+        }
+        result.put("total", mapper.getTotal(map));
         result.setMsg("请求成功");
         return result;
     }
@@ -104,6 +116,20 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture> impl
             result.setMsg("文件已经存在");
             result.setCode(Result.RESOURCE_CONFLICT);
             e.printStackTrace();
+        }
+        return result;
+    }
+
+    // 修改图片的状态
+    @Override
+    public Result modifyPictureState(String id) {
+        int count = mapper.modifyPictureState(id);
+        Result result = new Result();
+        if (count == 0) {
+            result.setCode(Result.NOT_FOUND);
+            result.setMsg("修改失败");
+        } else {
+            result.setMsg("修改车成功");
         }
         return result;
     }

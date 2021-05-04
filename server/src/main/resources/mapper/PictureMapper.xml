@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.valid.youtu.mapper.PictureMapper">
+    <update id="modifyPictureState">
+        UPDATE
+            picture
+        SET
+            is_show=is_show^1
+        WHERE
+            id=#{id}
+    </update>
+    <select id="getPicturesPages" parameterType="map" resultType="com.valid.youtu.entity.Picture">
+        SELECT
+            p.id,
+            p.name,
+            p.create_time,
+            p.story,
+            <if test="isShow == null">
+                p.is_show,
+            </if>
+            u.user_name owner
+        FROM
+             (picture p INNER JOIN classify c ON p.cid=c.id)
+        LEFT JOIN
+             user u
+        ON
+             u.id = p.owner
+        <where>
+            <if test="name != null">
+                AND c.name=#{name}
+            </if>
+            <if test="isShow != null">
+                AND is_show=#{isShow}
+            </if>
+        </where>
+        LIMIT #{page}, #{total}
+    </select>
+    <select id="getTotal" parameterType="map" resultType="integer">
+        SELECT
+            COUNT(*)
+        FROM
+            picture p
+        <if test="name != null">
+            INNER JOIN
+            classify c
+            ON
+            p.cid=c.id
+        </if>
+        <where>
+            <if test="isShow != null">
+                AND is_show=#{isShow}
+            </if>
+            <if test="name != null">
+                AND c.name=#{name}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -41,6 +41,20 @@ const routes = [
     {
         path: '/admin',
         component: Admin,
+        children: [
+            {
+                path: "picture",
+                component: () => import("../components/admin/UploadManager.vue")
+            },
+            {
+                path: "comment",
+                component: () => import("../components/admin/PictureManager.vue")
+            },
+            {
+                path: "user",
+                component: () => import("../components/admin/UploadManager.vue")
+            }
+        ]
     },
     {
         path: '/login',

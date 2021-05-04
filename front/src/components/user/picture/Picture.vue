@@ -6,7 +6,7 @@
             </div>
             <div class="desc">
                 <el-button>
-                    <a :href="STATIC_PATH + img.name">下载</a>
+                    <a :href="STATIC_PATH + img.name" :download="getPictureName(img.name)">下载</a>
                 </el-button>
                 <el-button>收藏</el-button><br />
                 <p class="story author">{{img.story}}</p>
@@ -28,6 +28,7 @@
 import {defineComponent, ref, toRefs, watch, Ref} from "vue";
 
 import { showMessage } from "../../../utils/resultUilts"
+import { getPictureName } from "../../../utils/utils"
 import axios from "../../../utils/axios"
 import { STATIC_PATH } from "../../../utils/constant"
 
@@ -56,9 +57,6 @@ export default defineComponent({
             .then(res => {
                 data.value = res.data.pictures
             })
-            .catch(err => {
-                showMessage("网络错误", false)
-            })
         }
 
         // 请求total
@@ -67,11 +65,9 @@ export default defineComponent({
             .then(res => {
                 total.value = res.data.total
             })
-            .catch(err => {
-                showMessage("网络错误", false)
-            })
         }
 
+        // 监控激活的导航
         watch(activeName, (current: string) => {
             page.value = 1
             reqTotal(current) // 请求总数
@@ -80,6 +76,7 @@ export default defineComponent({
             immediate: true
         })
 
+        // 翻页
         const currentChange = (p: number) => {
             page.value = p
             request(activeName.value)
@@ -89,7 +86,8 @@ export default defineComponent({
             currentChange,
             data,
             page,
-            STATIC_PATH
+            STATIC_PATH,
+            getPictureName
         }
     }
 })

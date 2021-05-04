@@ -16,7 +16,7 @@
             <el-menu-item index="5-1" v-if="isLogin" @click="jump('/profile/personal')">个人资料</el-menu-item>
             <el-menu-item index="5-2" v-if="isLogin" @click="jump('/profile/personal')">我的收藏</el-menu-item>
             <el-menu-item index="5-3" v-if="isLogin" @click="jump('/upload')">我的上传</el-menu-item>
-            <el-menu-item index="5-3" v-if="isLogin.value && (auth.value==0)" @click="jump('/admin')">管理员界面</el-menu-item>
+            <el-menu-item index="5-3" v-if="auth" @click="jump('/admin')">管理员界面</el-menu-item>
             <el-menu-item index="5-4" v-if="isLogin" @click="logOut">退出登陆</el-menu-item>
             <el-menu-item index="5-5" v-if="!isLogin" @click="jump('/login')">点我登陆</el-menu-item>
         </el-submenu>
@@ -57,12 +57,9 @@ export default defineComponent({
         const loginMsg = ref("登陆") // 登陆信息
         const activeName = ref("recommend") // 默认激活
 
-        const auth = computed(() => store.state.auth) // 权限
-        const isLogin = computed(() => store.state.isLogin) // 登陆信息
         // 默认回调
         const select = (nav: Nav) => {
             activeName.value = nav.index
-            console.log(isLogin.value && (auth.value==0))
             router.push(`/home/${nav.index}`)
         }
 
@@ -89,8 +86,8 @@ export default defineComponent({
             jump,
             logOut,
             activeName,
-            isLogin,
-            auth,
+            isLogin: computed(() => store.state.isLogin),
+            auth: computed(() => store.state.auth == 0),
             isLoading: computed(() => store.state.isLoading)
         }
     }

@@ -1,3 +1,5 @@
+import moment from "moment"
+
 const saveItem = (key: string, item: string | number) => {
     localStorage.setItem(key, item + "")
 }
@@ -24,8 +26,20 @@ const parseToken = (token: string | null) => {
     return info
 }
 
+
+// 获取URL对应的名字
+const getPictureName = (name: string) => {
+    return name.substring(name.lastIndexOf("/") + 1)
+}
+
+// 获取时间
+const getTime = (time: string) => {
+    return moment(time).format('lll')
+}
 export {
     parseToken,
     saveItem,
-    getItem
+    getItem,
+    getPictureName,
+    getTime
 }

@@ -21,13 +21,13 @@ const showMessage = (msg: string, isSuccess: boolean) => {
         ElMessage.success({
             message: msg,
             type: "success",
-            duration: 500
+            duration: 800
         })
     } else {
         ElMessage.error({
             message: msg,
             type: "error",
-            duration: 500
+            duration: 800
         })
     }
 }

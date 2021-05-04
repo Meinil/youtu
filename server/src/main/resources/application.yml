@@ -13,6 +13,8 @@ spring:
     web:
         resources:
             static-locations: classpath:public/,file:public/
+    jackson:
+        default-property-inclusion: non_null # 不返回null
 
 mybatis-plus:
     configuration:

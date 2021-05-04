@@ -20,9 +20,8 @@ public class Picture {
     @TableField(exist = false)// 返回后端时忽略此字段
     private Classify classify; // 外键分类
 
-    @JsonIgnore
     @TableField(fill = FieldFill.INSERT)
-    private boolean isShow; // 是否显示
+    private Boolean isShow; // 是否显示
 
     private String owner; // 拥有者
 
@@ -41,7 +40,7 @@ public class Picture {
                    String name,
                    Date createTime,
                    Classify classify,
-                   boolean isShow,
+                   Boolean isShow,
                    String owner,
                    String story) {
         this.id = id;
@@ -61,7 +60,7 @@ public class Picture {
         this.story = story;
     }
 
-    public void setShow(boolean show) {
+    public void setShow(Boolean show) {
         isShow = show;
     }
 
@@ -89,7 +88,7 @@ public class Picture {
         return story;
     }
 
-    public boolean getIsShow() {
+    public Boolean getIsShow() {
         return isShow;
     }
 

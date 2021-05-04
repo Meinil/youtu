@@ -1,5 +1,7 @@
 package com.valid.youtu.utils;
 
+import com.valid.youtu.enums.Auth;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -9,5 +11,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RequiredToken {
-    boolean required() default true;
+    Auth auth() default Auth.GENERAL; // 默认普通用户权限
 }

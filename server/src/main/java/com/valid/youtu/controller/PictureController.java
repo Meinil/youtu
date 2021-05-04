@@ -1,6 +1,7 @@
 package com.valid.youtu.controller;
 
 import com.valid.youtu.entity.Picture;
+import com.valid.youtu.enums.Auth;
 import com.valid.youtu.service.PictureService;
 import com.valid.youtu.utils.RequiredToken;
 import com.valid.youtu.utils.Result;
@@ -18,13 +19,13 @@ public class PictureController {
     // 分页查询
     @GetMapping("/{name}/{page}")
     public Result getPicture(@PathVariable("name") String name, @PathVariable("page") Integer page) {
-        return pictureService.getPictureByPage(name, page);
+        return pictureService.getPictureByPage(name, page, 1);
     }
 
     // 获取某一分类的总数
     @GetMapping("/{name}")
     public Result getTotal(@PathVariable("name") String name) {
-        return pictureService.getTotal(name);
+        return pictureService.getTotal(name, 1);
     }
 
     @RequiredToken

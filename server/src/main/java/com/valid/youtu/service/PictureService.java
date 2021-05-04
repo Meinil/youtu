@@ -6,7 +6,8 @@ import com.valid.youtu.utils.Result;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface PictureService extends IService<Picture> {
-    Result getPictureByPage(String name, Integer pageNum);
-    Result getTotal(String name);
+    Result getPictureByPage(String name, Integer pageNum, Integer isShow);
+    Result getTotal(String name, Integer isShow);
     Result upload(MultipartFile file);
+    Result modifyPictureState(String id);
 }
