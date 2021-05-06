@@ -1,9 +1,4 @@
 spring:
-    datasource:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://localhost:3308/youtu?useSSL=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-        username: root
-        password: 123456
     mvc:
         static-path-pattern: /res/**
     servlet:
@@ -15,6 +10,8 @@ spring:
             static-locations: classpath:public/,file:public/
     jackson:
         default-property-inclusion: non_null # 不返回null
+    profiles:
+        active: dev
 
 mybatis-plus:
     configuration:

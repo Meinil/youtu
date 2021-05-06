@@ -32,6 +32,9 @@
                 @click="submit"
                 >登录</el-button>
         </el-form-item>
+        <a :href="url">
+            <img class="github" src="../../../assets/github.png" alt="github">
+        </a>
     </el-form>
 </template>
 
@@ -42,7 +45,7 @@ import { useStore } from "vuex";
 
 import axios from "../../../utils/axios"
 import {saveToken, showMessage} from "../../../utils/resultUilts"
-import {OK} from "../../../utils/constant"
+import {OK, REDIRECT_URL, GITHUB_CLIENT_ID} from "../../../utils/constant"
 
 export default defineComponent({
     name: "Login",
@@ -87,7 +90,9 @@ export default defineComponent({
             password,
             checked,
             submit,
-            isLoading: computed(() => store.state.isLoading)
+            isLoading: computed(() => store.state.isLoading),
+            url: `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${REDIRECT_URL}&scope=user&state=1`
+
         }
     }
 })
@@ -115,5 +120,9 @@ export default defineComponent({
     .register {
         font-size: 12px;
         margin-bottom: 10px;
+    }
+
+    .github {
+        width: 30px;
     }
 </style>

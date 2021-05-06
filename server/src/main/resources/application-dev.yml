@@ -1,0 +1,11 @@
+spring:
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3308/youtu?useSSL=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+        username: root
+        password: 123456
+
+github:
+    client-id: 73a12faa667ecb9e0cbb
+    client-secret: a9573b1e6b20e200923977a68badb46b57e47360
+    redirect-uri: http://127.0.0.1:8080/youtu/api/callback/github
