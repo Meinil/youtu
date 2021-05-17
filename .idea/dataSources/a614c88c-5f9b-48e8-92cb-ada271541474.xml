@@ -1120,26 +1120,30 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <NotNull>1</NotNull>
       <DefaultExpression>1</DefaultExpression>
     </column>
-    <index id="315" parent="286" name="id">
+    <column id="315" parent="286" name="avatar_url">
+      <Position>7</Position>
+      <DataType>varchar(128)|0s</DataType>
+    </column>
+    <index id="316" parent="286" name="id">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="316" parent="286" name="user_name">
+    <index id="317" parent="286" name="user_name">
       <ColNames>user_name</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="317" parent="286" name="PRIMARY">
+    <key id="318" parent="286" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="318" parent="286" name="id">
+    <key id="319" parent="286" name="id">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id</UnderlyingIndexName>
     </key>
-    <key id="319" parent="286" name="user_name">
+    <key id="320" parent="286" name="user_name">
       <ColNames>user_name</ColNames>
       <UnderlyingIndexName>user_name</UnderlyingIndexName>
     </key>

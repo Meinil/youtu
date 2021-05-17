@@ -27,7 +27,6 @@
 <script lang="ts">
 import {defineComponent, ref, toRefs, watch, Ref} from "vue";
 
-import { showMessage } from "../../../utils/resultUilts"
 import { getPictureName } from "../../../utils/utils"
 import axios from "../../../utils/axios"
 import { STATIC_PATH } from "../../../utils/constant"

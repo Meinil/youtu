@@ -1,6 +1,8 @@
 package com.valid.youtu.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.valid.youtu.utils.UUIDUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,11 +30,17 @@ public class GithubToken {
     private String state;           // 状态
 
     @Data
-    @NoArgsConstructor
     @AllArgsConstructor
     public static class User{
-        private String login;        // 账户
-        private String avatarUrl;   // 头像
-        private String bio;         // 用户名
+        @JsonIgnore
+        private String id;              // 主键
+        @JsonIgnore
+        private String identityType;    // 授权类型
+        private String login;           // 账户
+        private String avatarUrl;       // 头像
+        private String bio;             // 用户名
+        public User() {
+            this.id = UUIDUtil.getUUID();
+        }
     }
 }

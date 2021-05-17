@@ -66,6 +66,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             result.setCode(Result.NOT_FOUND);
         } else {
             result.put("token", TokenUtil.getToken(user)); // 发放token
+            System.out.println(user);
+            result.put("avatarUrl", user.getAvatarUrl()); // 发放token
             result.setMsg("请求成功");
         }
 

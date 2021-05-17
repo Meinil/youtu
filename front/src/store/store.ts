@@ -1,23 +1,24 @@
 import { createStore } from 'vuex'
 
-import { TOKEN, AUTH, EXP, NAME } from "../utils/constant"
+import { TOKEN, AUTH, EXP, NAME, BASE_URL } from "../utils/constant"
 
 interface State {
     isLogin: boolean,
     auth: number | string | null,
     exp: number | string | null,
     name: string | null,
-    isLoading: boolean
+    isLoading: boolean,
+    avatarUrl: string
 }
 
 export default createStore({
     state () {
         return {
             isLogin: TOKEN !== null,
-            auth: AUTH, // 权限
-            exp: EXP, // 过期时间
-            name: NAME, // 用户名
-
+            auth: AUTH,             // 权限
+            exp: EXP,               // 过期时间
+            name: NAME,             // 用户名
+            avatarUrl: "",             // 用户头像
             isLoading: false
         }
     },
@@ -46,6 +47,15 @@ export default createStore({
         // 设置加载状态
         setLoading: (state: State) => {
             state.isLoading = !state.isLoading;
+        },
+
+        // 设置头像
+        setAvatarUrl: (state: State, avatarUrl: string | undefined) => {
+            if (avatarUrl == undefined) {
+                avatarUrl = import.meta.env.VITE_HOST  + "/youtu/favicon.ico"
+            } 
+            state.avatarUrl = avatarUrl
+            console.log(state.avatarUrl)
         }
     },
     // 存放异步操作

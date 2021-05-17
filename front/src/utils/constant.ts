@@ -9,7 +9,7 @@ const NOT_FOUND = 2         //未找到资源
 const RESOURCE_CONFLICT = 3 // 资源冲突
 const ERROR = 4             //未知的错误
 
-const STATIC_PATH = import.meta.env.VITE_HOST                   // 静态资源
+const STATIC_PATH = import.meta.env.VITE_SERVER                   // 静态资源
 const BASE_URL = STATIC_PATH + "/youtu/api/"                    // 基础URL
 
 const AUTH = getItem("auth") === null ? -1 : getItem("auth")    // 权限

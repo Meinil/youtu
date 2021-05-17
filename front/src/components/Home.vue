@@ -12,7 +12,10 @@
         <el-menu-item index="life" @click="select">生活</el-menu-item>
 
         <el-submenu index="personal" class="login-container">
-            <template #title>{{loginMsg}}</template>
+            <template #title>
+                <span v-if="!isLogin">登陆</span>
+                <img class="header" v-if="isLogin" :src="avatarUrl">
+            </template>
             <el-menu-item index="5-1" v-if="isLogin" @click="jump('/profile/personal')">个人资料</el-menu-item>
             <el-menu-item index="5-2" v-if="isLogin" @click="jump('/profile/personal')">我的收藏</el-menu-item>
             <el-menu-item index="5-3" v-if="isLogin" @click="jump('/upload')">我的上传</el-menu-item>
@@ -54,7 +57,6 @@ export default defineComponent({
         const router = useRouter() // 路由
         const store = useStore() // store
 
-        const loginMsg = ref("登陆") // 登陆信息
         const activeName = ref("recommend") // 默认激活
 
         // 默认回调
@@ -78,17 +80,20 @@ export default defineComponent({
 
         onMounted(() => {
             select({index: "recommend"})
+            if (localStorage.getItem("identityType") !== null) {
+                // axios.get()
+            }
         })
 
         return {
-            loginMsg,
             select,
             jump,
             logOut,
             activeName,
             isLogin: computed(() => store.state.isLogin),
             auth: computed(() => store.state.auth == 0),
-            isLoading: computed(() => store.state.isLoading)
+            isLoading: computed(() => store.state.isLoading),
+            avatarUrl: computed(() => store.state.avatarUrl),
         }
     }
 })
@@ -131,5 +136,8 @@ export default defineComponent({
         width: 150px;
         position: relative;
         top: -20px;
+    }
+    .header {
+        width: 50px;
     }
 </style>

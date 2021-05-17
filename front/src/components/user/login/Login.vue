@@ -32,6 +32,9 @@
                 @click="submit"
                 >登录</el-button>
         </el-form-item>
+        <a :href="url" @click="auth">
+            <img class="github" src="../../../assets/github.png" alt="github">
+        </a>
         <a :href="url">
             <img class="github" src="../../../assets/github.png" alt="github">
         </a>
@@ -70,6 +73,7 @@ export default defineComponent({
                             showMessage(res.msg, false)
                         } else {
                             saveToken(res.data.token)
+                            store.commit("setAvatarUrl", res.data.avatarUrl)
                             showMessage("登陆成功，跳转主页面", true)
                             store.commit("setLoading")
                             router.replace({path: "/home/recommend"}).catch(err => {
@@ -85,12 +89,17 @@ export default defineComponent({
             }
         }
 
+        const auth = (type) => {
+            localStorage.setItem("identityType", type)
+        }
+
         return{
             userName,
             password,
             checked,
             submit,
             isLoading: computed(() => store.state.isLoading),
+            auth,
             url: `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${REDIRECT_URL}&scope=user&state=1`
 
         }
