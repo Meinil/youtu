@@ -9,3 +9,6 @@ github:
     client-id: 73a12faa667ecb9e0cbb
     client-secret: a9573b1e6b20e200923977a68badb46b57e47360
     redirect-uri: http://127.0.0.1:8080/youtu/api/callback/github
+
+front:
+    index: http://localhost:3000/youtu/

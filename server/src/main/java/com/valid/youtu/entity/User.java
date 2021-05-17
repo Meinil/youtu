@@ -2,9 +2,16 @@ package com.valid.youtu.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.valid.youtu.enums.Auth;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("user")
 public class User {
     @TableId(type = IdType.ASSIGN_UUID)
@@ -21,81 +28,4 @@ public class User {
 
     @Version // 并发控制
     private Integer version;
-
-    public User() {
-    }
-
-    public User(String userName, String password) {
-        this.userName = userName;
-        this.password = password;
-    }
-
-    public User(String id, String userName, String password, Auth auth, Date createTime, Integer version) {
-        this.id = id;
-        this.userName = userName;
-        this.password = password;
-        this.auth = auth;
-        this.createTime = createTime;
-        this.version = version;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setAuth(Auth auth) {
-        this.auth = auth;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public Auth getAuth() {
-        return auth;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id='" + id + '\'' +
-                ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                ", auth=" + auth +
-                ", createTime=" + createTime +
-                ", version=" + version +
-                '}';
-    }
 }
