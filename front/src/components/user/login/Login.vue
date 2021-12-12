@@ -35,9 +35,6 @@
         <a :href="url" @click="auth">
             <img class="github" src="../../../assets/github.png" alt="github">
         </a>
-        <a :href="url">
-            <img class="github" src="../../../assets/github.png" alt="github">
-        </a>
     </el-form>
 </template>
 
