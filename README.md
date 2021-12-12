@@ -1,6 +1,6 @@
 PHP课程设计
 
-[演示地址](https://schrodingerseecat.github.io/youtu/#/)
+[演示地址](https://meinil.github.io/youtu/#/)
 
 使用步骤
 
